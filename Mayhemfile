@@ -2,4 +2,4 @@ project: sdb
 target: sdb
 
 cmds:
-  - cmd: /repo/src/sdb -
+  - cmd: /install/usr/bin/sdb -
