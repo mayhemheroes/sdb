@@ -160,7 +160,8 @@ static void walk_namespace(StrBuf *sb, char *root, int left, char *p, SdbNs *ns,
 SDB_API char *sdb_querys(Sdb *r, char *buf, size_t len, const char *_cmd) {
 	bool bufset = false;
 	bool is_ref = false;
-	int i, d, ok, w, alength, encode = 0;
+	int ok = 0;
+	int i, d, w, alength, encode = 0;
 	const char *p, *q, *val = NULL;
 	char *eq, *tmp, *json, *next, *quot, *slash, *cmd = NULL;
 	char *newcmd = NULL, *original_cmd = NULL;
@@ -173,7 +174,8 @@ SDB_API char *sdb_querys(Sdb *r, char *buf, size_t len, const char *_cmd) {
 	StrBuf *out = strbuf_new ();
 	if ((int)len < 1 || !buf) {
 		bufset = true;
-		buf = (char *)malloc ((len = 64));
+		len = 64;
+		buf = (char *)calloc (1, len);
 		if (!buf) {
 			strbuf_free (out);
 			return NULL;
@@ -625,10 +627,13 @@ next_quote:
 							val = NULL;
 						}
 					}
-					if (ok && buf) *buf = 0;
-					else buf = NULL;
+					if (ok && buf) {
+						*buf = 0;
+					} else {
+						buf = NULL;
+					}
 				} else {
-					if (i==0) {
+					if (i == 0) {
 						/* [-b]foo */
 						if (cmd[1]=='-') {
 							sdb_array_remove (s, p, cmd+2, 0);
