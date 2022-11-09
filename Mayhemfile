@@ -1,0 +1,5 @@
+project: sdb
+target: sdb
+
+cmds:
+  - cmd: /install/usr/bin/sdb -
