@@ -1,0 +1,5 @@
+project: sdb
+target: sdb-isjson
+
+cmds:
+  - cmd: /fuzz_sdb_isjson
